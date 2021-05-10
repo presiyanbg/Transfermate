@@ -16,7 +16,7 @@
         
                 <div class='section--body'>
                         <div class='search'>
-                            <form action=' " . APPLICATION_PATH . "index.php?controller=library&action=listAll__php' method='post'>
+                            <form autocomplete='off' action=' " . APPLICATION_PATH . "index.php?controller=library&action=listAll__php' method='post'>
                                 <div class='autocomplete'>
                                     <input class='search--input' name='topic'  type='text' id='searchInput'>
                                 </div>
@@ -47,5 +47,25 @@
             echo "</tr>";
         }
 
+    }
+
+    /*
+    * Autocomplete.
+    */
+    if (!empty($data) && is_array($data)) {
+        echo "
+    <script src='views/js/Autocomplete.js'>
+    </script>
+    
+    <script>
+        const books = " . json_encode($data) . "; 
+        
+        console.log(books[0].full_name);
+     
+        const searchInput = document.getElementById('searchInput'); 
+           
+        autocomplete(document.getElementById('searchInput'), books);
+    </script>
+        ";
     }
 ?>

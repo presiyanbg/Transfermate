@@ -29,10 +29,6 @@
                 <li>
                     <a href="<?php echo APPLICATION_PATH?>index.php?controller=library&action=listAll__js">Search By JS</a>
                 </li>
-
-                <li>
-                    <a href="<?php echo APPLICATION_PATH?>index.php?controller=library&action=createBook">Upload file</a>
-                </li>
             </ul>
         </nav>
     </div>

@@ -23,28 +23,18 @@ class LibraryController extends BaseController
     function __construct() {
         $this->libraryRepository= new LibraryRepository();
         $this->uploadManager = new UploadManager();
+
+        $this->updateBooks();
     }
 
     /*************************************************************
-     *      Insert XML file and insert content to Database.
+     *      Update Books Database.
      *************************************************************/
-    public function createBook() {
-        if (!empty($_POST) && !empty($_POST["create"])) {
-            if (empty($_FILES["file_to_upload"]["error"])) {
-                $file_name = $this->uploadManager->uploadXML();
+    public function updateBooks() {
+        $allBooks = $this->uploadManager->getAllBooks();
 
-                if (!$file_name) {
-                    return false;
-                } else {
-                    $books = simplexml_load_file("views/XML/" . $file_name);
-
-                    $this->libraryRepository->createBooks($books);
-
-                    return $books;
-                }
-            }
-        } else {
-            return true;
+        if ($allBooks) {
+            $this->libraryRepository->createBooks($allBooks);
         }
     }
 

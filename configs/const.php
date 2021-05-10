@@ -12,4 +12,5 @@ define('MODEL_PATH', 'models/');
 define('REPOSITORY_PATH', 'repositories/');
 define('VIEW_PATH', 'views/site/');
 
+define('XML_FILES_MAIN_DIRECTORY', 'views/XML/');
 ?>
