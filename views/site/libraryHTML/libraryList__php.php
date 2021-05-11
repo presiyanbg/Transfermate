@@ -1,5 +1,17 @@
 <?php
 
+$allBooks = [];
+$searchedBooks = [];
+
+    if (is_array($data) && !empty($data)) {
+        if (count($data) > 2) {
+            $allBooks = $data;
+            $searchedBooks = $data;
+        } else {
+            $allBooks = $data[0];
+            $searchedBooks = $data[1];
+        }
+    }
     /*
     * Search authors with PHP.
     */
@@ -30,7 +42,7 @@
     /*
     * Display books in table.
     */
-    if (!empty($data) && is_array($data)) {
+    if (!empty($allBooks) && is_array($allBooks)) {
         echo "
             <table class='table--search' id='books'>
                 <tr>
@@ -40,7 +52,7 @@
                 </tr>
         ";
 
-        foreach ($data as $book) {
+        foreach ($allBooks as $book) {
             echo "<tr>";
                 echo "<td>" . $book['full_name'] . "</td>";
                 echo "<td>" . $book['title'] . "</td>";
@@ -52,16 +64,14 @@
     /*
     * Autocomplete.
     */
-    if (!empty($data) && is_array($data)) {
+    if (!empty($searchedBooks) && is_array($searchedBooks)) {
         echo "
     <script src='views/js/Autocomplete.js'>
     </script>
     
     <script>
-        const books = " . json_encode($data) . "; 
-        
-        console.log(books[0].full_name);
-     
+        const books = " . json_encode($searchedBooks) . "; 
+       
         const searchInput = document.getElementById('searchInput'); 
            
         autocomplete(document.getElementById('searchInput'), books);

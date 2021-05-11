@@ -49,9 +49,9 @@ class LibraryController extends BaseController
             $searchResults = $this->libraryRepository->searchByAuthorName($_POST["topic"]);
 
             if (sizeof($searchResults) > 0) {
-                return $searchResults;
+                return array($searchResults,$this->libraryRepository->getAll());
             } else {
-                return true;
+                return $this->libraryRepository->getAll();
             }
         } else {
             return $this->libraryRepository->getAll();

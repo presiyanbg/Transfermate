@@ -5,8 +5,13 @@
 <html>
 <head>
     <title>Transfermate library</title>
+
     <link rel="stylesheet" type="text/css" href="<?php echo APPLICATION_PATH?>views/css/main.css?v=<?php echo time(); ?>">
+
+    <link rel="stylesheet" type="text/css" href="<?php echo APPLICATION_PATH?>views/css/animation.css?v=<?php echo time(); ?>">
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>

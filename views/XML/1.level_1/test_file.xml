@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <books>
 	<book>
-		<author>Isak Azimov</author>
+		<author>1.Level 1</author>
 		<name>test</name>
 	</book>
 	<book>

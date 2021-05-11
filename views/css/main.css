@@ -20,7 +20,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	font-size: 16px;
-	background-color: #000;
+	background-color: #222;
 }
 
 h1 {
@@ -273,11 +273,23 @@ input[type=submit] {
 	font-size: 15px;
 	border-collapse: collapse;
 	border-bottom: 1px solid #999;
-}
 
+}
 .table--search td {
 	padding: 10px;
+	animation: 0.5s ease-out 0s 1 slideInFromLeft;
+
 }
+
+@keyframes slideInFromLeft {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
 
 /* ------------------------------------------------------------ *\
 	Clear Fix

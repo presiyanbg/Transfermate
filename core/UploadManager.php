@@ -3,84 +3,67 @@
 class UploadManager
 {
     /*************************************************************
-     *  Upload XML file
-     *************************************************************/
+     *  Container for books
+    *************************************************************/
+    private $allBooks = [];
+
+    /*************************************************************
+     *  Get All Books
+    *************************************************************/
     public function getAllBooks(){
         $target_dir = XML_FILES_MAIN_DIRECTORY;
 
-        $allDirectories = $this->getAllDirectories($target_dir);;
+        $this->openAllDirectories($target_dir);
 
-        $allBooks = $this->getAllXMLFiles($allDirectories);
-
-        return $allBooks;
+        return $this->allBooks;
     }
 
     /*************************************************************
-     *  Get all directories.
-     *************************************************************/
-    private function getAllDirectories($target_dir){
-        $allDirectories = [];
+     *  Opens all directories.
+    *************************************************************/
+    private function openAllDirectories($target_dir){
+        $allDirectories = scandir($target_dir);
 
-        if ($handle = opendir($target_dir)) {
-            while (false !== ($entry = readdir($handle))) {
-                if (is_dir($target_dir.$entry)) {
-                    array_push($allDirectories, $target_dir.$entry);
+        foreach ($allDirectories as $dir) {
+            if ($dir != "." && $dir != "..") {
+                $dirPath = $target_dir . "/" . $dir;
+                if (is_dir($dirPath)) {
+                    $this->openAllDirectories($dirPath);
+                } else {
+                    $this->openFile($dirPath);
                 }
             }
         }
-
-        return $allDirectories;
     }
 
     /*************************************************************
-     *  Get all XML files.
-     *************************************************************/
-    private function getAllXMLFiles($allDirectories){
-        $allBooks= [];
+     *  Opens file and reads it if is XML.
+    *************************************************************/
+    private function openFile($file){
+        $file_type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-        foreach ($allDirectories as $dir) {
-            if ($handle = opendir($dir)) {
-                while (false !== ($entry = readdir($handle))) {
-                    $file_path = $dir."/".$entry;
+        if ($file_type == "xml") {
+            $xml = array(simplexml_load_file($file));
 
-                    /*
-                    * Get file type
-                    */
-                    $file_type = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+            if ($xml) {
+                $booksFromFile = $xml[0];
 
+                //Adds only new books to booksArray
+                foreach ($booksFromFile as $newBook) {
+                    $bookExists = false;
 
-                    /*
-                     * Check file extension
-                     */
-                    if ($file_type == "xml") {
-                        $xml = array(simplexml_load_file($file_path));
-
-                        if ($xml) {
-                            $booksFromFile = $xml[0];
-
-
-                            //Adds new books to booksArray
-                            foreach ($booksFromFile as $newBook) {
-                                $bookExists = false;
-
-                                foreach ($allBooks as $addedBook) {
-                                    if (strcmp($addedBook->name,$newBook->name) == 0 && strcmp($addedBook->author,$newBook->author) == 0) {
-                                        $bookExists = true;
-                                        break;
-                                    }
-                                }
-
-                                if ($bookExists === false) {
-                                    array_push($allBooks, $newBook);
-                                }
-                            }
+                    foreach ($this->allBooks as $addedBook) {
+                        if (strcmp($addedBook->name,$newBook->name) == 0 && strcmp($addedBook->author,$newBook->author) == 0) {
+                            $bookExists = true;
+                            break;
                         }
                     }
 
+                    if ($bookExists === false) {
+                        array_push($this->allBooks, $newBook);
+                    }
                 }
             }
         }
-
-        return $allBooks;
     }
 }
